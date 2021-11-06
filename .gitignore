@@ -119,13 +119,34 @@ venv.bak/
 
 # mkdocs documentation
 /site
-
+#pycharm project
+*.idea
 # mypy
 .mypy_cache/
 .dmypy.json
 dmypy.json
-
+#secrets
+token.txt
+# latex irrelevant outputs for tracking
+*.aux
+*.toc
+*.out
+*.log
+*.aux
+#data
+*.xls
+*.csv
+*.json
+*.xlsx
+*.html
+*.RData
+*.Rhistory
 # Pyre type checker
 .pyre/
-
-token.txt
+.Rproj.user
+# checkpoints jupyter
+*.ipynb_checkpoints
+*.dat
+*.ctrl
+*.lck
+/metastoredb
