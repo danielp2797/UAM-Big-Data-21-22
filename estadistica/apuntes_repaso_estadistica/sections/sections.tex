@@ -1,0 +1,82 @@
+\section{Datos}
+\subsection{Descripción de una sola variable}
+\subsubsection{Frecuencias}
+La frecuencia absoluta $n_i$ de un suceso $x_i$ es el número de veces que éste se observa en la muestra. Por otro lado, si la muestra tiene $n$ observaciones, la frecuencia relativa de $x_i$ es el número de veces que se ha observado $x_i$ con respecto al total de observaciones en la muestra: $f_i = n_i/n$.
+\begin{example}
+Poner ejemplo aquí
+\end{example}
+\subsection{Descripción de varias variables}
+\section{Modelos}
+\subsection{Probabilidad y variables aleatorias}
+El objetivo de la probabilidad es inferir las propiedades de una población a partir de una muestra. El intrumento que permite dichas inferencias es un \textbf{modelo de la población}. El cálculo de probabilidades permite medir la incertidumbre de un suceso según el modelo de la población.
+\subsubsection{Probabilidad y sus propiedades}
+En esta sección se explican los conceptos más relevantes de la probabilidad y que son de uso común en toda la asignatura.\\\\
+\textbf{Población, muestra y experimento}\\\\
+Estos conceptos son la base para referirse a los distintos elementos de un estudio estadístico y no deben confundirse.
+\begin{definition}(población)
+
+	\label{def:población}
+\end{definition}
+\begin{definition}(experimento)
+Un \textit{experimento} es la acción de observar una determinada característica en un elemento de la población en estudio.
+	\label{def:experimento}
+\end{definition}
+\begin{definition}(muestra)
+Una \textit{muestra} es un conjunto de experimentos llevados a cabo en la población en estudio.
+	\label{def:muestra}
+\end{definition}
+Estos conceptos se entienden mejor con un ejemplo sencillo.
+\begin{example}
+
+	\label{ex: población}
+\end{example}
+Son importantes porque al estudiar los modelos de probabilidad, se tiene una población modelo sobre la que se hacen inferencias a partir de muestras. Además, un modelo define su ley de probabilidad a través de experimentos.
+\\\\\textbf{Suceso y Espacio de sucesos}\\\\
+Estos conceptos son importantes para definir claramente cuáles son todos los posibles resultados de un experimento y qué probabilidad se está calculando.
+\begin{definition}(Suceso elemental)
+	Un suceso es un resultado de un experimento. Se suelen denotar con una letra en mayúscula.
+	\label{def:suceso_el}
+\end{definition}
+\begin{definition}(Espacio de sucesos)
+	El espacio de sucesos es el conjunto de todos los sucesos posibles. Siempre tiene que ocurrir alguno de ellos y son mutuamente excluyentes. Suele denotarse con $\Omega$.
+	\label{def:espacio_sucesos}
+\end{definition}
+Así, cuando se hace un estudio estadístico, se define una población y un espacio de sucesos que se espera encontrar en ella. Además, cuando se calculan probabilidades, se tiene que decir explícitamente cuál es el suceso al que se le calcula la probabilidad.
+\begin{example}
+
+	\label{ex: espacio_sucesos}
+\end{example}
+\begin{definition}(Suceso compuesto)
+Un suceso es compuesto si se define como la unión o intersección de varios sucesos elementales.
+\end{definition}
+\begin{example}
+
+\end{example}
+\textbf{Probabilidad}\\\\
+La probabilidad mide la incertidumbre asociada a un suceso en relación al espacio de sucesos. En esencia, no es más que una función que asigna a cada suceso un número y este número indica cuánto de común es observar un suceso.
+\begin{definition}(Probabilidad)
+La probabilidad $P$ es una función que asigna a cada suceso del espacio muestral un número real entre 0 y 1.\footnote{ En el entorno técnico es una aplicación $P: \Omega \longrightarrow [0, 1]_{\mathbb{R}}$}
+\end{definition}
+Es importante tener claras las propiedades de las probabilidades para no caer en absurdos y detectar errores de cálculo. Éstas se definen con los axiomas de Kolmogorov, que son un conjunto de propiedades que deben cumplirse siempre que se calculen de probabilidades.
+\begin{definition}(Axiomas de Kolmogorov)
+Dado un espacio de sucesos $\Omega$ y una función de probabilidad $P$, se cumple que:
+\begin{enumerate}
+	\item $\forall A \in \Omega$ se cumple que $P(A) \in [0, 1]_{\mathbb{R}}$
+	\item $P(\Omega) = 1$
+	\item Si $\lbrace A_1,\ldots,A_n \rbrace$ son sucesos independientes, entonces $P(\bigcup_{i=1}^n{A_i}) = \sum_{i=1}^n{P(A_i)}$
+\end{enumerate}
+\end{definition}
+El primer axioma dice que no pueden haber probabilidades negativas ni mayores que 1. El segundo dice que siempre debe ocurrir algun suceso del espacio de sucesos. El tercero dice que la probabilidad de que ocurra algun suceso elemental de un conjunto de sucesos elementales es la suma de sus probabilidades.\\\\
+De este conjunto de axiomas se deducen todas las propiedades de las probabilidades (las demostraciones se dejan en el anexo):
+\begin{definition}(propiedades de las probabilidades)
+	content...
+\end{definition}
+\subsubsection{Probabilidad condicionada}
+\subsubsection{Variables aleatorias}
+\subsection{Modelos de distribución de probabilidad}
+\subsubsection{El proceso de Bernoulli}
+\subsubsection{El proceso de Poisson}
+\subsubsection{Las distribuciones de duraciones de vida}
+\subsubsection{La distribución Normal}
+\subsubsection{La distribución Log-Normal}
+\subsection{Modelos Multivariantes}
