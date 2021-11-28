@@ -14,7 +14,7 @@ En esta sección se explican los conceptos más relevantes de la probabilidad y 
 \textbf{Población, muestra y experimento}\\\\
 Estos conceptos son la base para referirse a los distintos elementos de un estudio estadístico y no deben confundirse.
 \begin{definition}(población)
-
+Una población es un conjunto de elementos de los que se quiere extraer o inferir cierta información. Si la población contiene un número finito de elementos se dice que la población es finita. Por otro lado, si la cantidad de elementos no se puede determinar de manera exacta se asume que es infinita.
 	\label{def:población}
 \end{definition}
 \begin{definition}(experimento)
@@ -27,51 +27,122 @@ Una \textit{muestra} es un conjunto de experimentos llevados a cabo en la poblac
 \end{definition}
 Estos conceptos se entienden mejor con un ejemplo sencillo.
 \begin{example}
-
+Supongamos que se quiere averiguar qué cantidad de hombres y mujeres hay en la ciudad de Madrid. En este caso, la población en estudio son todas las personas de Madrid. Un experimento es observar a una persona concreta y comprobar si es hombre o mujer. Una muestra son varios experimentos donde se observan distintas personas para comprobar si son hombre o mujer.
 	\label{ex: población}
 \end{example}
 Son importantes porque al estudiar los modelos de probabilidad, se tiene una población modelo sobre la que se hacen inferencias a partir de muestras. Además, un modelo define su ley de probabilidad a través de experimentos.
-\\\\\textbf{Suceso y Espacio de sucesos}\\\\
+\\\\\textbf{Suceso y Espacio muestral}\\\\
 Estos conceptos son importantes para definir claramente cuáles son todos los posibles resultados de un experimento y qué probabilidad se está calculando.
-\begin{definition}(Suceso elemental)
-	Un suceso es un resultado de un experimento. Se suelen denotar con una letra en mayúscula.
+\begin{definition}(Suceso)
+	Un suceso es el resultado de un experimento. Además, si un suceso se expresa como unión o intersección de varios sucesos se dice que es un suceso compuesto. Los sucesos se suelen denotar con una letra en mayúscula.
 	\label{def:suceso_el}
 \end{definition}
-\begin{definition}(Espacio de sucesos)
-	El espacio de sucesos es el conjunto de todos los sucesos posibles. Siempre tiene que ocurrir alguno de ellos y son mutuamente excluyentes. Suele denotarse con $\Omega$.
+\begin{definition}(espacio muestral)
+	El espacio muestral es el conjunto de todos los sucesos posibles. Siempre tiene que ocurrir alguno de ellos y son mutuamente excluyentes. Suele denotarse con $\Omega$.
 	\label{def:espacio_sucesos}
 \end{definition}
-Así, cuando se hace un estudio estadístico, se define una población y un espacio de sucesos que se espera encontrar en ella. Además, cuando se calculan probabilidades, se tiene que decir explícitamente cuál es el suceso al que se le calcula la probabilidad.
-\begin{example}
-
-	\label{ex: espacio_sucesos}
-\end{example}
-\begin{definition}(Suceso compuesto)
-Un suceso es compuesto si se define como la unión o intersección de varios sucesos elementales.
+\begin{definition}(Suceso complementario)
+	Dado un suceso $A \in \Omega$, se dice que el suceso $\overline{A} = \Omega - A$ es el suceso complementario de $A$.
+	\label{def: suceso complementario}
 \end{definition}
+Así, cuando se hace un estudio estadístico, se define una población y un espacio muestral que se espera encontrar en ella. Además, cuando se calculan probabilidades, se tiene que decir explícitamente cuál es el suceso al que se le calcula la probabilidad.
 \begin{example}
-
+Supongamos que tenemos un dado equilibrado de 6 caras. Al lanzar el dado, los posibles resultados son $\lbrace 1,2,3,4,5,6\rbrace$. El espacio muestral es $\Omega = \lbrace 1,2,3,4,5,6\rbrace$ y esta compuesto por los sucesos elementales $A_i = \textrm{salir el número } i$. Un suceso compuesto podría ser $A = A_1 \cup A_2 = \lbrace 1,2\rbrace$. Por otro lado, el suceso complementario de $A_1 = \lbrace 1\rbrace$ es $\overline{A_1} = \Omega - \lbrace 1\rbrace = \lbrace 2,3,4,5,6\rbrace$\label{ex: espacio_sucesos}
 \end{example}
-\textbf{Probabilidad}\\\\
-La probabilidad mide la incertidumbre asociada a un suceso en relación al espacio de sucesos. En esencia, no es más que una función que asigna a cada suceso un número y este número indica cuánto de común es observar un suceso.
+\textbf{Probabilidad}\footnote{En las diapositvas esta parte se explica usando un enfoque frecuentista, es decir, usando las frecuencias $n_i$. En estos apuntes se sigue un enfoque axiomático (Kolmogorov).}\\\\
+La probabilidad mide la incertidumbre asociada a un suceso concreto respecto a todo el espacio muestral. En esencia, no es más que una función que asigna a cada suceso un número, y este número indica cuánto de común es observar el suceso.
 \begin{definition}(Probabilidad)
-La probabilidad $P$ es una función que asigna a cada suceso del espacio muestral un número real entre 0 y 1.\footnote{ En el entorno técnico es una aplicación $P: \Omega \longrightarrow [0, 1]_{\mathbb{R}}$}
+Una probabilidad $P$ es una función que asigna a cada suceso del espacio muestral $\Omega$ un número real entre 0 y 1.\footnote{ En el entorno técnico es una aplicación $P: \Omega \longrightarrow [0, 1]_{\mathbb{R}}$}
 \end{definition}
-Es importante tener claras las propiedades de las probabilidades para no caer en absurdos y detectar errores de cálculo. Éstas se definen con los axiomas de Kolmogorov, que son un conjunto de propiedades que deben cumplirse siempre que se calculen de probabilidades.
+A continuación, se define la regla más comun e intuitiva para calcular probabilidades bajo el supuesto de que todos los sucesos elementales del espacio muestral son equiprobables, es decir, que realizado un experimento, la probabilidad de observar cualquier suceso elemental es la misma.
+\begin{definition}(Regla de Laplace)
+Dado un espacio muestral $\Omega$ y un suceso $A$, la probabilidad del suceso viene dada por:
+$$P(A) = \frac{\textrm{nº de sucesos favorables a A}}{\textrm{Número total de sucesos posibles}}$$	
+\end{definition}
+\begin{example}
+Continuando con el ejemplo \ref{ex: espacio_sucesos}, si el dado esta equilibrado, la probabilidad de cualquier suceso elemental es
+$$P(A_i) = \frac{\textrm{nº de resultados en los que sale el número } i}{\textrm{nº de resultados posibles}} = \frac{1}{6}$$
+Por otro lado, la probabilidad del suceso compuesto $A_1 \cup A_2$ es
+$$P(A_1 \cup A_2) = \frac{\textrm{nº de resultados en los que sale el número } 1 \textrm{ o } 2}{\textrm{nº de resultados posibles}} = \frac{2}{6}=\frac{1}{3}$$	
+	\label{ex: probabilidad calculo}
+\end{example}
+Además, es importante tener claras las propiedades de las probabilidades para no caer en absurdos y detectar errores de cálculo. Éstas se definen a partir de los axiomas de Kolmogorov, que son un conjunto de propiedades que deben cumplirse siempre que se calculen probabilidades.
 \begin{definition}(Axiomas de Kolmogorov)
-Dado un espacio de sucesos $\Omega$ y una función de probabilidad $P$, se cumple que:
+Dado un espacio muestral $\Omega$ y una función de probabilidad $P$, se cumple que:
 \begin{enumerate}
-	\item $\forall A \in \Omega$ se cumple que $P(A) \in [0, 1]_{\mathbb{R}}$
+	\item $\forall A \in \Omega$ se tiene que $P(A) \in [0, 1]_{\mathbb{R}}$
 	\item $P(\Omega) = 1$
-	\item Si $\lbrace A_1,\ldots,A_n \rbrace$ son sucesos independientes, entonces $P(\bigcup_{i=1}^n{A_i}) = \sum_{i=1}^n{P(A_i)}$
+	\item Si $\lbrace A_1,\ldots,A_n \rbrace$ son sucesos elementales, entonces $P(\bigcup_{i=1}^n{A_i}) = \sum_{i=1}^n{P(A_i)}$
 \end{enumerate}
 \end{definition}
-El primer axioma dice que no pueden haber probabilidades negativas ni mayores que 1. El segundo dice que siempre debe ocurrir algun suceso del espacio de sucesos. El tercero dice que la probabilidad de que ocurra algun suceso elemental de un conjunto de sucesos elementales es la suma de sus probabilidades.\\\\
+El primer axioma dice que no pueden haber probabilidades negativas ni mayores que 1. El segundo dice que en cualquier experimento siempre debe ocurrir algun suceso del espacio muestral. El tercero dice que dado un conjunto de sucesos elementales, la probabilidad de que ocurra alguno de ellos es la suma de sus probabilidades\footnote{Nótese que para que se cumpla los sucesos deben ser elementales, esto es, se verifica que $A_i \cap A_j = \emptyset$ para cualesquiera $i, j$.}.\\\\
 De este conjunto de axiomas se deducen todas las propiedades de las probabilidades (las demostraciones se dejan en el anexo):
 \begin{definition}(propiedades de las probabilidades)
-	content...
+Las probabilidades cumplen las siguientes propiedades:
+\begin{enumerate}
+	\item (Probabilidad del suceso vacío) $P(\emptyset) = 0$
+	\item (Monotonía) Dados dos sucesos $A, B \in \Omega$, si $A \subseteq B \Rightarrow P(A) \le P(B)$
+	\item (Sucesos definidos segun otro suceso) Dados dos sucesos $A, B \in \Omega$ se tiene que $P(A) = P(A-B)+ P(A \cap B)$
+	\item (Regla del complementario) Para cualquier suceso $A \in \Omega$, se verifica que $P(\overline{A}) = 1 - P(A)$.
+	\item (Probabilidad de la unión) Dados dos sucesos $A, B \in \Omega$ se tiene que $P(A \cup B) = P(A)+P(B)-P(A \cap B)$
+	\item (Leyes de Morgan) Dados dos sucesos $A, B \in \Omega$ se tiene que 
+	$$P(\overline{A \cup B}) = P(\overline{A}\cap \overline{B})$$
+	$$P(\overline{A \cap B}) = P(\overline{A}\cup \overline{B})$$
+\end{enumerate}
 \end{definition}
+La primera propiedad dice que la probabilidad de un suceso vacío es 0, lo que concuerda con que siempre debe ocurrir algún suceso del espacio muestral en los experimentos. La segunda dice que si un suceso es parte de otro suceso más amplio, entonces la probabilidad del suceso más amplio acota al resto\footnote{Nótese que cualquier suceso verifica $A \subset \Omega$, luego $P(A) \le P(\Omega) = 1$ y se obtiene que la probabilidad está acotada superiormente a 1. Así que esta propiedad no es más que una extensión a cualquier par de subconjuntos $A, B$ de la acotación en 1 de las probabilidades.}. La tercera dice que un suceso $A$ (y por tanto, su probabilidad) puede definirse en base a otro suceso $B$ como: \textit{lo que hay en A y además está B más lo que hay en A y no está en B}. La regla del complementario no es más que una aplicación de la tercera al caso en que $B = \Omega$. La quinta propiedad evita contar dos veces la intersección de los dos sucesos $A, B$. Las leyes de Morgan permiten calcular la probabilidad de sucesos complementarios de una manera rápida y tienen su origen en la lógica proposicional.
 \subsubsection{Probabilidad condicionada}
+En esta sección se los resultados más notables de probabilidades condicionadas, se introduce el concepto de dependencia de sucesos y se enuncia el teorema de Bayes con algunos ejemplos.
+\begin{definition}(Probabilidad condicionada)
+Dado un espacio muestral $\Omega$ y una función de probabilidad $P$, entonces, la probabilidad de un suceso $A \subset \Omega$ condicionada por otro suceso $B \subset \Omega$ se define como 
+$$P(A|B) = \frac{P(A \cap B)}{P(B)}$$ \label{def: cond}
+\end{definition}
+Esta probabilidad mide la incertidumbre asociada a un suceso $A$ cuando también ocurre otro suceso $B$. Ligada a este concepto está la noción de independencia de sucesos.
+\begin{definition}(Independencia de sucesos)
+	Dado un espacio muestral $\Omega$ y una función de probabilidad $P$, los sucesos $A, B \subset \Omega$ se dicen independientes si se cumple que $$P(A|B) = P(A)$$ $$P(B|A) = P(B)$$
+	Estas dos condiciones pueden resumirse en una única expresión más práctica
+	$$P(A \cap B) = P(A)P(B)$$	\label{def: independencia}
+\end{definition}
+Es decir, dos sucesos son independientes si la ocurrencia de un suceso no altera la probabilidad de aparición del otro.\\\\
+\textbf{Teorema de Bayes}\\\\
+Ligado al concepto de probabilidad condicionada se encuentra el teorema de Bayes. La terminología usual de probabilidades a priori y posteriori nace de su aplicación en campos como la economía, medicina, etc. Primero se ve como llegar matemáticamente al resultado del teorema y después con un ejemplo se explica esta terminología usual.
+\begin{theorem}
+Sea $\Omega$ un espacio muestral y $P$ una función de probabilidad. Consideremos un conjunto de sucesos que cubre todo el espacio muestral i.e. $A = \lbrace A_1,\ldots, A_n\rbrace$ tal que $A_1 \cup A_2 \cup \cdots \cup A_n = \Omega$ y un suceso $B \subset \Omega$. Entonces, la probabilidad de un suceso $A_i \in A$ condicionada por el suceso $B$ es:
+$$P(A_i| B) = \frac{P(A_i)P(B|A_i)}{\sum_{i=1}^{n}{P(A_i)P(B|A_i)}}$$\label{th: Bayes}
+\end{theorem}
+\textbf{Demostración}\\\\
+Como se cumple que $A_1 \cup A_2 \cup \cdots \cup A_n = \Omega$
+se puede expresar $B$ en relación al especio muestral $\Omega$ como sigue
+$$B = B \cap \Omega = B \cap (A_1 \cup A_2 \cup \cdots \cup A_n) = (A_1 \cap B) \cup (A_2 \cap B) \cup \cdots \cup (A_n \cap B)$$
+Además, como los sucesos elementales son independientes, aplicando probabilidades a ambos lados de la igualdad anterior se tiene que 
+\begin{equation}
+P(B) = P((A_1 \cap B) \cup (A_2 \cap B) \cup \cdots \cup (A_n \cap B)) = \sum_{i=1}^n{P(A_i \cap B)}
+\label{eq: Bayes1}
+\end{equation}
+Ahora bien, se sabe por la definición de probabilidad condicionada (\ref{def: cond}) que 
+\begin{equation}
+P(A_i \cap B) = P(A_i)P(B|A_i)
+\label{eq: Bayes2}
+\end{equation} 
+Del mismo modo se tiene que
+\begin{equation}
+P(B) = \frac{P(A_i \cap B)}{P(A_i|B)}
+\label{eq: Bayes3}
+\end{equation}  
+Aplicando \ref{eq: Bayes3} en el lado izquierdo de \ref{eq: Bayes1} y \ref{eq: Bayes2} sobre el lado derecho de la ecuación \ref{eq: Bayes1} se tiene:
+$$\frac{P(A_i \cap B)}{P(A_i|B)} = \sum_{i=1}^n{P(A_i)P(B|A_i)}$$
+Ordenando términos se tiene:
+$$P(A_i|B) = \frac{P(A_i \cap B)}{\sum_{i=1}^n{P(B)P(A_i|B)}}$$
+Por último, volviendo a aplicar \ref{eq: Bayes2} sobre la expresión anterior, se obtiene finalmente el resultado del teorema de Bayes:
+$$P(A_i| B) = \frac{P(A_i)P(B|A_i)}{\sum_{i=1}^{n}{P(A_i)P(B|A_i)}}$$
+$ \blacksquare $\\\\
+En la demostración del teorema se ve que el resultado nace de expresar la probabilidad de un suceso $B$ a través de las condicionadas con un conjunto de sucesos $\lbrace A_1,\ldots, A_n\rbrace$.\\\\
+Ahora bien, por lo general, este teorema se utiliza para resolver problemas de experimentos en dos fases.\\\\
+Por ejemplo, supongamos que realizamos un experimento donde medimos si unos pacientes tienen un virus o no y si dan positivo o negativo en un test. Si primero se mide si tienen el virus y después se mide el resultado del test, el teorema de Bayes respondería a una pregunta del tipo: ¿Qué probabilidad tiene un paciente de tener el virus si se sabe que en el test ha dado negativo? Es decir, el teorema trata de responder a preguntas acerca de la primera fase cuando solo se conoce información de los resultados de la segunda fase.
+\begin{example}(Aplicación del Teorema de Bayes)	
+Siguiendo con el ejemplo anterior y con la misma notación que en el Teorema \ref{th: Bayes}, los sucesos son: $A_1 = \textrm{``tener el virus''}$ con $P(A_1) = 0.1$; $A_2 = \textrm{``no tener el virus''}$ con $P(A_2) = 0.9$; $B = \textrm{``test negativo''}$ con probabilidad desconocida. Además se sabe $P(B|A_1) = 0.8$ y $P(B|A_2) = 0.2$. Entonces, si sabemos que el test ha dado negativo, la probabilidad de que el paciente tenga el virus es:
+$$P(A_1|B) = \frac{P(A_1)P(B|A_1)}{P(A_1)P(B|A_1)+ P(A_2)P(B|A_2)} = \frac{0.1 \times 0.8}{0.1 \times 0.8 + 0.9\times 0.2} = 0.307$$
+\end{example}
 \subsubsection{Variables aleatorias}
 \subsection{Modelos de distribución de probabilidad}
 \subsubsection{El proceso de Bernoulli}
@@ -80,3 +151,8 @@ De este conjunto de axiomas se deducen todas las propiedades de las probabilidad
 \subsubsection{La distribución Normal}
 \subsubsection{La distribución Log-Normal}
 \subsection{Modelos Multivariantes}
+\break
+\section*{\centering{Anexo}}
+Esta sección sirve de complemento para las secciones anteriores, profundizando en los conceptos introducidos. 
+\section*{\centering{Demostración de las propiedades de las probabilidades}}
+\section*{\centering{Demostración del Teorema de Bayes}}
