@@ -1,11 +1,3 @@
-\section{Datos}
-\subsection{Descripción de una sola variable}
-\subsubsection{Frecuencias}
-La frecuencia absoluta $n_i$ de un suceso $x_i$ es el número de veces que éste se observa en la muestra. Por otro lado, si la muestra tiene $n$ observaciones, la frecuencia relativa de $x_i$ es el número de veces que se ha observado $x_i$ con respecto al total de observaciones en la muestra: $f_i = n_i/n$.
-\begin{example}
-Poner ejemplo aquí
-\end{example}
-\subsection{Descripción de varias variables}
 \section{Modelos}
 \subsection{Probabilidad y variables aleatorias}
 El objetivo de la probabilidad es inferir las propiedades de una población a partir de una muestra. El intrumento que permite dichas inferencias es un \textbf{modelo de la población}. El cálculo de probabilidades permite medir la incertidumbre de un suceso según el modelo de la población.
@@ -143,6 +135,7 @@ Por ejemplo, supongamos que realizamos un experimento donde medimos si unos paci
 Siguiendo con el ejemplo anterior y con la misma notación que en el Teorema \ref{th: Bayes}, los sucesos son: $A_1 = \textrm{``tener el virus''}$ con $P(A_1) = 0.1$; $A_2 = \textrm{``no tener el virus''}$ con $P(A_2) = 0.9$; $B = \textrm{``test negativo''}$ con probabilidad desconocida. Además se sabe $P(B|A_1) = 0.8$ y $P(B|A_2) = 0.2$. Entonces, si sabemos que el test ha dado negativo, la probabilidad de que el paciente tenga el virus es:
 $$P(A_1|B) = \frac{P(A_1)P(B|A_1)}{P(A_1)P(B|A_1)+ P(A_2)P(B|A_2)} = \frac{0.1 \times 0.8}{0.1 \times 0.8 + 0.9\times 0.2} = 0.307$$
 \end{example}
+Para concluir, las probabilidades $P(A_i)$ se conocen como \textbf{probabilidad a priori}, haciendo referencia a que es la probabilidad del suceso antes de conocer la segunda fase del experimento. Por otro lado, las probabilidades $P(A_i|B)$ se conocen como \textbf{probabilidad a posteriori}, haciendo referencia a que es la probabilidad del suceso $A_i$ una vez conocido el resultado de la segunda fase del experimento. Nótese que para este tipo de problemas, la probabilidad $P(B)$ del suceso $B$, el de la segunda fase, no es relevante ya que no aporta ninguna información sobre el resultado de la primera fase.
 \subsubsection{Variables aleatorias}
 \subsection{Modelos de distribución de probabilidad}
 \subsubsection{El proceso de Bernoulli}
@@ -151,6 +144,46 @@ $$P(A_1|B) = \frac{P(A_1)P(B|A_1)}{P(A_1)P(B|A_1)+ P(A_2)P(B|A_2)} = \frac{0.1 \
 \subsubsection{La distribución Normal}
 \subsubsection{La distribución Log-Normal}
 \subsection{Modelos Multivariantes}
+\section{Inferencia Estadística}
+\subsection{Estimación puntual}
+\subsection{Estimación por intervalos}
+\subsection{Estimación Bayesiana}
+\subsection{Contraste de hipótesis}
+En esta sección se ve qué es un contraste de hipótesis, los distintos tipos que existen y cuál es la metodología para aplicarlos. Además, se explican los distintos tipos de problemas que requieren usar un contraste y cómo se resuelven.
+\subsubsection{Introducción a los contrastes de hipótesis}
+Un contraste de hipótesis consta de los siguientes cuatro elementos:
+\begin{itemize}
+	\item Población: Es el conjunto de todos los elementos sobre los que se quiere contrastar una hipótesis determinada.
+	\item Muestra: Consiste en la observación de una parte de la población para poder extraer conclusiones acerca de la poblacióon.
+	\item Variable aleatoria: Es el hecho que queremos medir y sobre el que queremos extraer conclusiones.
+	\item Modelo de probabilidad: Es la ley de probabilidad que rige el comportamiento de la variable aleatoria en la población.
+\end{itemize}
+En el siguiente ejemplo se identifican estos cuatro aspectos en un problema típico de contraste de hipótesis. 
+\begin{example}(Ejercicio 10.2.8 Daniel Peña)
+Un proceso industrial fabrica piezas con longitudes que se distribuyen normalmente ($\mu$ = 190 mm; $\sigma$ = 10 mm). Se toma una muestra de tamaño cinco, obteniendo las longitudes: 187, 212, 195, 208, 192. Contrastar que estos cinco datos provienen de una población con media 190.\\\\
+La población son todas las piezas que fabrica dicho proceso industrial. La variable aleatoria es la longitud de dichas piezas. El modelo de probabilidad es el de una distribución normal. Es decir, la probabilidad de que una pieza seleccionada al azar tenga determinada longitud viene dada por la distribución normal. La muestra son las 5 piezas que se extraen para medir la variable aleatoria en cuestión y comprobar si se puede asumir como cierto el modelo de probabilidad propuesto para la población.\label{ex: contraste}
+\end{example}
+Estos cuatro aspectos son relevantes porque de estos depende la forma de obtener un contraste de hipótesis y sus resultados. Por ejemplo:
+\begin{itemize}
+	\item El modelo de probabilidad condiciona la distribución de la variable aleatoria, y por tanto, de esto depende la expresión matemática del contraste.
+	\item El tamaño de la muestra condiciona en muchos casos el resultado de un contraste. También, la forma de extraer una muestra (muestreo) condiciona la distribución de los estadísticos en el muestreo.
+\end{itemize}
+\subsubsection{Tipos de hipótesis}
+Una vez vistos los cuatro elementos necesarios para poder hacer un contraste de hipótesis, se introduce cómo formular las hipótesis del contraste.\\\\
+Una hipótesis estadística es una suposición concreta sobre la distribución de probabilidad de una variable aleatoria. Dada una variable aleatoria $X$ con función de probabilidad $f_\theta(x)$ que depende del parámetro $\theta$ las hipótesis se clasifican de la siguiente forma:
+\begin{itemize}
+	\item \textbf{Test de parámetros}: especifica un valor exacto o intervalo de valores para los parámetros de la distribución.
+	\item \textbf{Test de comparación entre poblaciones}: establece si varias poblaciones tienen la misma distribución.
+	\item \textbf{Test de distribución}: determina la función de distribución de una población en base a una muestra.
+\end{itemize}
+Es importe diferenciar estos tipos de contraste. Por ejemplo, en los test de parámetros y de poblaciones, se conoce total o parcialmente el modelo de probabilidad de la variable aleatoria, y se pretenden encontrar los valores de sus parámetros que mejor explican el comportamiento de la variable aleatoria en base a una muestra. En el tercero, no se conoce dicho modelo y se contrasta si puede asumirse como cierto que la variable aleatoria sigue un determinado modelo (no parámetrico).\\\\
+
+\begin{example}(Continuación del ejemplo \ref{ex: contraste})
+En el ejercicio propuesto, se quiere contrastar si la media de la distribución normal es 190 mm a través de una muestra, por lo que es un test de parámetros.
+\end{example}
+
+\subsubsection{Metodología para contrastar hipótesis}
+\subsubsection{Contrastes para una única población}
 \break
 \section*{\centering{Anexo}}
 Esta sección sirve de complemento para las secciones anteriores, profundizando en los conceptos introducidos. 
