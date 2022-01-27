@@ -1,0 +1,70 @@
+\section{Introducción a Apache Spark}
+\subsection{¿Qué es Apache Spark?}
+Spark es una plataforma de computación para clústers de propósito general que trabaja en memoria.
+Ventajas con respecto a Hadoop:
+\begin{itemize}
+	\item Velocidad. Spark trabaja en memoria, más cerca de la CPU, al contrario que Hadoop (disco).
+	\item Permite trabajar tanto en Batch como en streaming, Hadoop solo en Batch.
+	\item Integra distintas herramientas como SQL o grafos.
+	\item Se puede trabajar con él en distintas APIs (Java, Scala, R y Python) y en Hadoop solo Java.
+	\item Los desarrollos son más sencillos y ágiles, especialmente si se usa la API de Python, ya que se aprovechan las ventajas de este lenguaje sobre Java.
+\end{itemize}
+El Ecosistema Spark tiene cuatro aplicaciones principales: Spark SQL, Spark Streaming, MLlib y GraphX.\\\\
+Con respecto a la arquitectura, es muy versátil, se puede trabajar Standalone, Sobre la nube o sobre Hadoop. Además admite diversas fuentes de datos: locales, HDFS, Cassandra, MongoDB, Hive, postgresSQL, mySQL, S3 Amazon...\\\\
+En el curso se utiliza \textbf{pyspark} la interfaz python de Spark. Por lo general un programa de Spark tiene los siguiente elementos:
+\begin{itemize}
+	\item \textbf{SparkContext}. Es el driver que accede a los recursos del sistema y gestiona la ejecución de los programas. Suele llamarse sc.
+	\item \textbf{Cluster Manager}. El nodo Front del cluster que distribuye las tareas segun las instrucciones del driver.
+	\item \textbf{Worker Program}. Ejecutan el programa y tienen una memoria cache donde almacenan resultados intermedios.
+\end{itemize}
+\subsection{Resilient Distributed Datasets (RDDs)}
+Es el objeto básico de cualquier trabajo en Spark. Es un objeto inmutable que se puede transformar para crear nuevos RDDs o realizar acciones sobre ellos. Es importante señalar que es un objeto lazy, es decir, cuando se realicen transformaciones, se guarda la secuencia de instrucciones hasta que se requiera explícitamente su cálculo. La razón de esta característica es poder guardar la información en todos los nodos de un clúster y que se pueda recuperar la instrucción si se cae algún nodo.\\\\
+Por tanto, cabe distinguir entre transformaciones, que conforman una pipeline y acciones, que desencadenan la ejecución de pipelines y devuelven el resultado al driver. Se debe tener cuidado al desencadenar las ejecuciones meidante acciones, ya que puede colapsarse la memoria del driver.\\\\
+Al definir un RDD cada línea del fichero se carga como una cadena de tipo \textit{str}, por tanto, un RDD en origen es una colección de cadenas.\\\\
+Un aspecto a tener en cuenta durante el desarrollo de aplicaciones es que todas las operaciones que se realicen sobre los RDDs deben ser asociativas y conmutativas, ya que debido al paralelismo, no se garantiza el orden en las operaciones. Además, cabe recordar que operaciones de tipo reduceByKey o joins generan trasiego de datos (shuffle) ya que deben agrupar todas las ternas con la mismma clave en un mismo nodo.\\\\
+\textbf{IMPORTANTE}: Las ejecuciones son efímeras, no se guarda nada en memoria salvo que se especifique con .cache().
+\section{Fuentes de datos}
+\subsection{JSON}
+Es el formato que se usa para desarrollo web como alternativa a XML. Spark infiere automáticamente el esquema cuando lee datos desde un fichero JSON (útil para enviar y recibir datos a sistema externo) aunque no es un formato eficiente para almacenamiento permanente. 
+\subsection{ORC}
+Está diseñado para almacenar datos Hive de forma mas eficiente. Está orientado a columnas (los datos de una columna se almacenan de forma contigua) y usa algoritmos de compresión (Zlib, Snappy, ...).
+\subsection{Parquet}
+Es una BD orientada a columnas del ecosistema Hadoop. Los valores de cada columna se alamcenan en posiciones de memoria contiguas y se comprime por columnas. No es necesario leer filas completas para resolver consultas.\\\\
+ Además, es independiente de Hive y de ningún entorno de desarrollo específico. Ofrece un sistema de gestión de bases de datos (SGBD) que almacena tablas por columnas en lugar de filas. Tanto las BBDD orientadas a filas como orientadas a columnas usan SQL. Aumenta el rendimiento de las consultas sobre todo en grandes conjuntos de datos cuando solo se leen unas pocas columnas de datasets con muchas columnas. 
+\subsection{Sistemas orientados a filas}
+Los sistemas deben recorrer toda una tabla buscando los registros que cumplan una condición. Si una tabla tiene cientos de registros no hay espacio en un único bloque de disco y hay que hacer varias operaciones de disco (lectura) para recuperarla.\\\\
+Para mejorar el rendimiento se usan índices que almacenan un conjunto de columnas junto con punteros a la tabla original.Son más pequeños que las tablas y reducen el número de operaciones en disco aunque son muy costosos, si se actualiza la tabla hay que actualizar los índices.\\\\
+ Otra forma de aumentar el rendimiento es almacenar todos los datos en RAM (MMDB), no requiere de índices aunque solo pueden manejar BD que quepan en memoria.
+\subsection{Sistemas orientados a columnas}
+Serializan todos los valores de cada columna. Cualquier columna tiene la estructura de un índice del formato orientado a filas, con la diferencia de que la clave primaria ahora es el dato. Esto eficienta las consultas, ya que se puede almacenar bajo un mismo índice varias filas que contienen el mismo valor (contar registros de manera eficiente).\\\\
+Para operaciones que devuelven todos los datos son más lentas. Otro aspecto a tener en cuenta es que la mayoría de los bottleneck se producen por el número de accessos a disco, el formato columnar reduce este trasiego alrededor del disco comprimiendo datos y leyendo solo las columnas necesarias para resolver la consulta. 
+\section{Spark Streaming}
+\subsection{Modos de procesamiento de datos}
+\textbf{Batch}: Procesado offline, por lotes. Datos almacenados en soporte persistente con acceso arbitrario y sin restricciones en cuanto a procesos.\\\\
+\textbf{Streaming}: procesado online, en flujos. Datos provenientes de una fuente viva con acceso en secuencia y que requiere de procesado en un intervalo de tiempo máximo. Cabe señalar que este procesamiento es muy complejo ya que exige un tiempo de reacción muy corto (detección de fraude) y solo es posible cuando la estructura de los datos lo permite (redes sociales).
+\subsection{Principios de Spark Streaming}
+Un DStream es el tipo básico de una aplicación Spark Streaming. Se define como un conjunto sucesivo de mini-RDDs que sigue una arquitectura de micro-batches de manera que en cada instante de tiempo (sample) se tiene un RDD concreto que cambia en cada ventana.
+\subsection{Fuentes de datos}
+Spark Streaming soporta las fuentes de datos más básicas como Ficheros HDFS, csv o Sockets (host, port). Por otro lado soporta algunas avanzadas como Kafka, Flume o Kinesis.
+\subsection{Operaciones}
+\begin{itemize}
+	\item Transformaciones: similares a las transformaciones de RDDs (map, flatmap, filter, union, count, reduce, join, reduceBykey, countByValue)
+	\item Operaciones de ventanas: Aplican a una ventana móvil de RDDs.
+	\item Operaciones de salida: Grabar a disco, escribir por consola, foreachRDD().
+	\item Operaciones con DataFrames
+	\ item Aplicación de Algoritmos ML
+\end{itemize}
+\subsection{Mantenimiento de estado}
+Por defecto un RDD de un DStream muta a cada instante de tiempo y los datos del instante anterior se pierden, sin embargo, es posible mantener el estado (updateStateByKey, mapWithState).\\\\
+updateStateByKey permite aplicar una función de actualización de estado a cada RDD de un DStream y se llama en los ejecutores de Spark, no en el driver (código). Cada ejecutor, guarda el valor retornado en cada llamada de la función de actualización y se lo pasa a la siguiente llamada (llevando el estado de una micro-batch a la siguiente) aunque exige checkpointing\footnote{Guardar resultados intermedios del grafo de ejecución (DAG). \url{https://books.japila.pl/apache-spark-internals/rdd/checkpointing/} }.\\\\
+\subsection{Robustez}
+Spark Streaming no posee de forma nativa la robustez estádar de Spark, los datos son vivos y no es posible regenrar el DAG en caso de caída.\\\\
+Algunas facilidades para resistencia frente a fallos son:
+\begin{itemize}
+	\item \textbf{Grabación del estado a disco} para regeneración en caso de errores. Útil en el driver para recuperarse después de caídas(checkpoint()).
+	\item \textbf{Write-Ahead-Logs}. Se guardan todos los datos recibidos en los ficheros log que se encuentran en el directorio de checkpoints.
+	\item \textbf{Rearranque automático} del driver. Depende de la configuración del cluster y del proveedor del cluster.
+	\item Control de la tasa de lectura mediante \textbf{back pressure}. Back Pressure es un mecanismo que establece un límite a los eventos que van a ser procesados por cada micro-batch, asegurándonos que los datos fluyen constantemente, aunque sea de forma parcial. Es importante entender que hay que intentar ajustar lo mejor posible dicho valor. Si ponemos un valor bajo, estaremos desaprovechando los recursos. Si ponemos un valor alto, seremos incapaces de cumplir los tiempos de nuestros micro-batches.
+\end{itemize}
+\subsection{}
+
