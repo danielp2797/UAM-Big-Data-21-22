@@ -66,5 +66,14 @@ Algunas facilidades para resistencia frente a fallos son:
 	\item \textbf{Rearranque automático} del driver. Depende de la configuración del cluster y del proveedor del cluster.
 	\item Control de la tasa de lectura mediante \textbf{back pressure}. Back Pressure es un mecanismo que establece un límite a los eventos que van a ser procesados por cada micro-batch, asegurándonos que los datos fluyen constantemente, aunque sea de forma parcial. Es importante entender que hay que intentar ajustar lo mejor posible dicho valor. Si ponemos un valor bajo, estaremos desaprovechando los recursos. Si ponemos un valor alto, seremos incapaces de cumplir los tiempos de nuestros micro-batches.
 \end{itemize}
-\subsection{}
+\subsection{Criterios de diseño de una aplicación Spark}
+\begin{itemize}
+	\item Ajustar el paralelismo de lectura mediante el dimensionamiento de input DStream por particionado o por multiplexación.
+	\item revisar el número de cores disponibles en cada ejecutor ya que un receptor (input DStream) ocupa un core.
+	\item ajustar la carga computacional mediante el particionado de los DStreams y el intervalo de captura.
+	\item Revisar la resistencia frente a errores (checkpointing, WAL, rearrancado del driver, backpressure).
+\end{itemize}
+\subsection{Streaming estructurado}
+Consiste en un API para trabajar con datos en tiempo real (streaming) usando directamente DataFrames. Usa el motor de Spark SQL para ejecutarlo de forma incremental y continua, según llegan los datos. Permite definir agregaciones, ventanas, y combinar streaming con batch.\\\\
+
 

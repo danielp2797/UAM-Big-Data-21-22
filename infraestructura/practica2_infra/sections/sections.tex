@@ -6,6 +6,12 @@ Para realizar la práctica se ha utilizado la traza proporcionada en el curso. E
 \textbf{Ejercicio 1. Crear un script HIVE que obtenga la serie temporal en bits/s con granularidad 1 segundo para la traza de análisis. (0,75 puntos)}\\\\
 Para obtener la serie se agregan todos los paquetes por timestamp y se suma la longitud multiplicada por ocho para obtener el dato en bits.
 \begin{lstlisting}[caption=Consulta para obtener la serie]
+ADD JAR hdfs:///user/uambd11/libs/
+hadoop-pcap-serde-1.2-
+SNAPSHOT-jar-with-dependencies.jar;
+
+USE uambd11;
+
 SELECT ts, sum(len)*8 as bits
 from pcaps 
 group by ts 
@@ -37,12 +43,18 @@ Se observa que en algunos segundos del timestamp se ha producido algún error ya
 	para la traza de análisis. Los registros de flujos han de contener: Dirección IP origen y destino, Puerto origen y destino, Protocolo (TCP o UDP), Número de bytes, Número de paquetes. (0,75 puntos)}\\\\
 Para obtener el registro de flujos se agregan las observaciones por origen, destino y protocolo para despues calcular la cantidad de bytes y paquetes. 
 \begin{lstlisting}[caption=Consulta para obtener el registro de flujos]
+ADD JAR hdfs:///user/uambd11/libs/
+hadoop-pcap-serde-1.2-
+SNAPSHOT-jar-with-dependencies.jar;
+
+USE uambd11;
+
 SELECT src,
 	dst, 
 	protocol,
 	sum(len) AS bytes,
 	count(*) AS packages 
-FROM default.pcaps
+FROM pcaps
 WHERE protocol IN ('UDP', 'TCP')
 GROUP BY src, dst, protocol;
 \end{lstlisting}
@@ -68,9 +80,11 @@ En la tabla \ref{tab:c2} se observa un ejemplo del registro.
 	peticiones) en la traza de análisis. (0.75 puntos)}\\\\
 En este ejercicio se precisa ampliar la tabla provista en el curso con el campo \textit{header\_host}. Una vez añadido, basta hacer un recuento de peticiones (\textit{http\_request}) agregando por los valores de host y ordenar descendentemente para obtener el ranking de hosts más populares.
 \begin{lstlisting}[caption=Consulta para obtener el ranking de hosts]
-ADD JAR hdfs:///user/uambdXX/libs/
+ADD JAR hdfs:///user/uambd11/libs/
 hadoop-pcap-serde-1.2-
 SNAPSHOT-jar-with-dependencies.jar;
+
+USE uambd11;
 
 SET net.ripe.hadoop.pcap.io.reader.class=
 net.ripe.hadoop.pcap.HttpPcapReader;
@@ -105,9 +119,11 @@ En la tabla \ref{tab:c3} se muestra un ejemplo del resultado.
 	peticiones observadas en la traza de análisis. (0.75 puntos)}\\\\
 En este caso, tras añadir el campo \textit{header\_user-agent}, se hace un recuento de la cantidad de agentes distintos junto al recuento de todas las filas.
 \begin{lstlisting}[caption=Consulta para obtener el resúmen de agentes.]
-ADD JAR hdfs:///user/uambdXX/libs/
+ADD JAR hdfs:///user/uambd11/libs/
 hadoop-pcap-serde-1.2-
 SNAPSHOT-jar-with-dependencies.jar;
+
+USE uambd11;
 
 SET net.ripe.hadoop.pcap.io.reader.class=
 net.ripe.hadoop.pcap.HttpPcapReader;
@@ -133,9 +149,11 @@ En la tabla \ref{tab:c4} se muestra el resultado.\\
 \textbf{Ejercicio 5. Crear un script HIVE que obtenga las diferentes líneas de respuesta HTTP junto con el número de veces que se han observado. (0,75 puntos)}\\\\
 Para resolver este ejercicio se hace un recuento de observaciones agregado por la respuesta http.
 \begin{lstlisting}[caption=Consulta para obtener el recuento de respuestas]
-ADD JAR hdfs:///user/uambdXX/libs/
+ADD JAR hdfs:///user/uambd11/libs/
 hadoop-pcap-serde-1.2-
 SNAPSHOT-jar-with-dependencies.jar;
+
+USE uambd11;
 
 SET net.ripe.hadoop.pcap.io.reader.class=
 net.ripe.hadoop.pcap.HttpPcapReader;
@@ -166,33 +184,163 @@ En la tabla \ref{tab:c5} se muestran las primeras líneas del resultado.
 Se observa un número de respuestas OK superior al resto, un resultado razonable si tenemos en cuenta que la traza se genera mediante un uso normal de internet.\\\\
 \textbf{Ejercicio 6. Crear un script HIVE que obtenga la popularidad de los nombre de dominio (por número de
 	peticiones) en la traza de análisis. (0,75 puntos)}\\\\
-Para resolver este ejercicio nos basamos en la cantidad de requests DNS. Al ser un protocolo de resolución de direcciones, para encontrar los dominios más populares basta contar la cantidad de veces que se ha resuelto dicho dominio por DNS.\\\\
-En esta consulta los nombres de dominio se obtienen del primer substring (separndo por espacios) de la columna \textit{dns\_request} y se hace un recuento agregando por esta columna calculada. No se ha encontrado una forma más sencilla y directa de hacerlo con el serde proporcionado.
+Para resolver este ejercicio nos basamos en la cantidad de requests DNS. Al ser un protocolo de resolución de nombres de dominio a direcciones, para encontrar los dominios más populares basta contar la cantidad de veces que se han resuelto dichos dominio por DNS.\\\\
+En esta consulta los nombres de dominio se obtienen del primer substring (separando por espacios) de la columna \textit{dns\_request} y se hace un recuento agregando por esta columna calculada. No se ha encontrado una forma más sencilla y directa de hacerlo con el serde proporcionado.
 \begin{lstlisting}[caption=Consulta para obtener el ranking de dominios]
-	ADD JAR hdfs:///user/uambdXX/libs/
-	hadoop-pcap-serde-1.2-
-	SNAPSHOT-jar-with-dependencies.jar;
+ADD JAR hdfs:///user/uambd11/libs/
+hadoop-pcap-serde-1.2-
+SNAPSHOT-jar-with-dependencies.jar;
 	
-	SET net.ripe.hadoop.pcap.io.reader.class=
-	net.ripe.hadoop.pcap.HttpPcapReader;
-	
-SELECT header_host, count(*) AS counter FROM http GROUP BY header_host ORDER BY counter DESC LIMIT 10;
+USE uambd11;
+
+SET net.ripe.hadoop.pcap.io.reader.class=
+net.ripe.hadoop.pcap.DnsPcapReader;
+
+CREATE TABLE IF NOT EXISTS dns_domains  AS
+select split(substring(dns_question, 0,
+ instr(dns_question, ' ')),'\\.')[
+SIZE(split(substring(dns_question, 0,
+ instr(dns_question, ' ')),'\\.'))-3] 
+AS site_name_splitted FROM dns;
+
+SELECT site_name_splitted,
+count(*) AS counter 
+FROM dns_domains 
+GROUP BY site_name_splitted 
+ORDER BY counter DESC;
 \end{lstlisting}
-En la tabla \ref{tab:c5} se muestran las primeras líneas del resultado.
+En la tabla \ref{tab:c6} se muestra el top 5.
 
 \begin{table}[ht]
 	\centering
 	% To place a caption above a table
 	\caption{Ejemplo del resultado de la consulta}
 	\begin{tabular}[t]{cc}
-		http\_response & res\_count \\
+		dominio & nº visitas \\
 		\hline
-		NULL &	332400\\
-		HTTP/1.1 200 OK&	1792\\
-		HTTP/1.1 302 Found&	250\\
-		HTTP/1.1 302 Moved Temporarily&	96\\
-		HTTP/1.1 204 No Content&	60\\
+		google	& 388 \\
+		doubleclick&	384\\
+		adnxs&	376\\
+		facebook&	272\\
+		uam	&264\\
 	\end{tabular}
 	% Or to place a caption below a table
-	\label{tab:c5}
+	\label{tab:c6}
 \end{table}%
+\textbf{Ejercicio 7. Obtener los valores por defecto de los siguientes parámetros (desde HIVE) e indicar cómo se
+	han obtenido:(1 punto)}\\\\
+Los valores se han obtenido en HUE, ejecutando en el editor de HIVE el comando \textit{SET {--variable--}}. En la tabla \ref{tab:c7} se muestra el resultado.
+
+\begin{table}[ht]
+	\centering
+	% To place a caption above a table
+	\caption{Resultado de la consulta}
+	\begin{tabular}[t]{cc}
+		parámetro & valor \\
+		\hline
+		mapreduce.map.memory.mb	& 0 \\
+		mapreduce.map.java.opts&	-Djava.net.preferIPv4Stack=true\\
+		mapreduce.reduce.memory.mb&	0\\
+		mapreduce.reduce.java.opts&	-Djava.net.preferIPv4Stack=true\\
+		mapreduce.task.io.sort.mb	&256\\
+		 yarn.scheduler.minimum-allocation-mb	& 1024 \\
+		yarn.scheduler.maximum-allocation-mb&	65536\\
+		yarn.scheduler.minimum-allocation-vcores&	1
+	\end{tabular}
+	% Or to place a caption below a table
+	\label{tab:c7}
+\end{table}%
+\textbf{Ejercicio 8. Utilizando el script desarrollado en el ejercicio 2, observar la influencia del parámetro
+	“mapreduce.map.cpu.vcores”. Variar su valor entre 1 y 3. Realizar 4 ejecuciones con cada valor y
+	obtener la media y al desviación estándar. Representar los datos de forma gráfica o mediante
+	una tabla. (1,5 puntos)}\\\\
+En este ejercicio se ejecuta la consulta dos variando el parámetro del cluster mediante el comando \textit{SET}.
+\begin{lstlisting}[caption=Consulta para obtener el registro de flujos (ampliado)]
+ADD JAR hdfs:///user/uambd11/libs/
+hadoop-pcap-serde-1.2-
+SNAPSHOT-jar-with-dependencies.jar;
+
+SET mapreduce.map.cpu.vcores=1;
+-- o bien el valor 3
+
+USE uambd11;
+
+SELECT src,
+dst, 
+protocol,
+sum(len) AS bytes,
+count(*) AS packages 
+FROM pcaps
+WHERE protocol IN ('UDP', 'TCP')
+GROUP BY src, dst, protocol;
+\end{lstlisting}
+En la tabla \ref{tab:c8} se muestra el resultado.
+\begin{table}[ht]
+	\centering
+	% To place a caption above a table
+	\caption{Resultado de la consulta (segundos)}
+	\begin{tabular}[t]{ccc}
+		Ejecución & mapreduce.map.cpu.vcores=1 & mapreduce.map.cpu.vcores=3 \\
+		\hline
+
+		1&48.4&	47.06\\
+		2&46.03&	48.36\\
+		3&47.89&	44.82\\
+		4&8.22&	48.606\\
+\hline
+std &1.09&	1.73
+\\
+media &47.63 & 47.21
+
+	\end{tabular}
+	% Or to place a caption below a table
+	\label{tab:c8}
+\end{table}%
+No se observan diferencias significativas entre ambos valores del parámetro.
+\\\\
+\textbf{Ejercicio 9. Utilizando el script desarrollado en el ejercicio 3, observar la influencia del parámetro
+	“mapreduce.map.memory.mb”. Probar con los siguientes valores [2048,4096,8192] . Realizar 4
+	ejecuciones con cada valor y obtener la media y al desviación estándar. Representar los datos de
+	forma gráfica o mediante una tabla. (1,5 puntos)}\\\\
+Para este ejercicio se modifica el script de la consulta 3 y se cambia el valor del parámetro con el comando \textit{SET}.
+\begin{lstlisting}[caption=Consulta para obtener el ranking de hosts (ampliado)]
+ADD JAR hdfs:///user/uambd11/libs/
+hadoop-pcap-serde-1.2-
+SNAPSHOT-jar-with-dependencies.jar;
+
+USE uambd11;
+
+SET net.ripe.hadoop.pcap.io.reader.class=
+net.ripe.hadoop.pcap.HttpPcapReader;
+
+SET mapreduce.map.memory.mb = 2048 
+--o bien 4096, 8192
+
+SELECT header-host, count(http-request) as count
+FROM http 
+GROUP BY header-host 
+ORDER BY rank DESC LIMIT 10;
+\end{lstlisting}
+En la tabla \ref{tab:c9} se muestra el resultado.
+\begin{table}[ht]
+	\centering
+	% To place a caption above a table
+	\caption{Resultado de la consulta (segundos)}
+	\begin{tabular}[t]{cccc}
+		Ejecución & .memory.mb = 2048& .memory.mb = 4096 & .memory.mb = 8192 \\
+		\hline
+		
+		1&50.85&	57.32 & 45.47\\
+		2&51.96&	55.05& 52.53\\
+		3&51.97&	53.95& 48.8\\
+		4&53.18&	52.85& 44.74\\
+		\hline
+		std &0.95&	1.90 & 3.56
+		\\
+		media &51.99 & 54.79 & 47.88
+		
+	\end{tabular}
+	% Or to place a caption below a table
+	\label{tab:c9}
+\end{table}%
+El parámetro controla la cantidad máxima de memoria que puede usar un mapper en Mb. Al incrmentar la memoria el proceso se observa ligeramente más corto. Es posible que con una mayor cantidad de datos esta diferencia en tiempo de ejecución sea mayor.
