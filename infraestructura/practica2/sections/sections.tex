@@ -296,13 +296,13 @@ media &47.63 & 47.21
 	% Or to place a caption below a table
 	\label{tab:c8}
 \end{table}%
+\\\\
 No se observan diferencias significativas entre ambos valores del parámetro.
 \\\\
-\textbf{Ejercicio 9. Utilizando el script desarrollado en el ejercicio 3, observar la influencia del parámetro
+\textbf{Ejercicio 9. Utilizando el script desarrollado en ejercicio 3, observar la influencia del parámetro
 	“mapreduce.map.memory.mb”. Probar con los siguientes valores [2048,4096,8192] . Realizar 4
 	ejecuciones con cada valor y obtener la media y al desviación estándar. Representar los datos de
 	forma gráfica o mediante una tabla. (1,5 puntos)}\\\\
-Para este ejercicio se modifica el script de la consulta 3 y se cambia el valor del parámetro con el comando \textit{SET}.
 \begin{lstlisting}[caption=Consulta para obtener el ranking de hosts (ampliado)]
 ADD JAR hdfs:///user/uambd11/libs/
 hadoop-pcap-serde-1.2-
@@ -343,4 +343,60 @@ En la tabla \ref{tab:c9} se muestra el resultado.
 	% Or to place a caption below a table
 	\label{tab:c9}
 \end{table}%
-El parámetro controla la cantidad máxima de memoria que puede usar un mapper en Mb. Al incrmentar la memoria el proceso se observa ligeramente más corto. Es posible que con una mayor cantidad de datos esta diferencia en tiempo de ejecución sea mayor.
+\\\\
+El parámetro controla la cantidad máxima de memoria que puede usar un mapper en Mb. Al incrementar la memoria el proceso, se observa que es ligeramente más rápido. Es posible que con una mayor cantidad de datos esta diferencia en tiempo de ejecución sea mayor.\\\\
+\textbf{Ejercicio 10. Utilizando el script desarrollado en ejercicio 6, observar la influencia de la aplicación de la
+	vectorización de HIVE (activar todos los parámetros de vectorización) . Realizar 4 ejecuciones
+	con cada una de las dos opciones y obtener la media y al desviación estándar. Representar los
+	datos de forma gráfica o mediante una tabla. (1,5 puntos)}\\\\
+En este ejercicio se deben activar las funcionalidades de vectorización y guardar la tabla necesaria para la query en un formato que soporte vectorización (en este caso ORC). La vectorización permite operar bloques de filas (1024 filas) en una misma iteración lo que disminuye el uso de recursos de la CPU \footnote{\url{https://cwiki.apache.org/confluence/display/Hive/Vectorized+Query+Execution}}. La funcionalidad se activa con el parámetro de HIVE: \textit{hive.vectorized.execution.enabled}.
+\begin{lstlisting}[caption=Consulta para obtener el ranking de dominios]
+ADD JAR hdfs:///user/uambd11/libs/
+hadoop-pcap-serde-1.2-
+SNAPSHOT-jar-with-dependencies.jar;
+
+USE uambd11;
+
+SET net.ripe.hadoop.pcap.io.reader.class=
+net.ripe.hadoop.pcap.DnsPcapReader;
+hive.vectorized.execution.enabled=true 
+SET hive.vectorized.execution.enabled=true; 
+
+CREATE TABLE IF NOT EXISTS dns_domains_vorc
+STORED AS ORC -- necesario para vectorizar
+AS SELECT split(substring(dns_question, 0,
+instr(dns_question, ' ')),'\\.')[
+SIZE(split(substring(dns_question, 0,
+instr(dns_question, ' ')),'\\.'))-3] 
+AS site_name_splitted FROM dns;
+
+SELECT site_name_splitted,
+count(*) AS counter 
+FROM dns_domains_vorc
+GROUP BY site_name_splitted 
+ORDER BY counter DESC;
+\end{lstlisting}
+En la tabla \ref{tab:c10} se muestra el resumen de tiempos.\\\\\\\\\\\\\\
+\begin{table}[h!]
+	\centering
+	% To place a caption above a table
+	\caption{Resultado de la consulta (segundos)}
+	\begin{tabular}[t]{ccc}
+		Ejecución & vectorizado& sin vectorizar\\
+		\hline
+		
+		1&38.01&	40.15\\
+		2&38.04&	40.33\\
+		3&37.91&	42.24\\
+		4&39.51&	40.13\\
+		\hline
+		std &0.76&	1.02
+		\\
+		media &38.36 & 40.71
+		
+	\end{tabular}
+	% Or to place a caption below a table
+	\label{tab:c10}
+\end{table}%
+\\\\
+Se aprecia una ligera bajada del tiempo de ejecución al vectorizar la operación, aunque no es significativa.
