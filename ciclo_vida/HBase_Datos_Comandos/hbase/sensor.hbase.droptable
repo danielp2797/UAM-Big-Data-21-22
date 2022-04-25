@@ -1,0 +1,5 @@
+list
+disable 'sensor'
+drop 'sensor'
+list
+exit
