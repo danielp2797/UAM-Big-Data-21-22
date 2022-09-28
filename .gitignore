@@ -150,3 +150,5 @@ token.txt
 *.ctrl
 *.lck
 /metastoredb
+
+/secret

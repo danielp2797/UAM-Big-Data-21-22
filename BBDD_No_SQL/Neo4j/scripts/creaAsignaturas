@@ -1,0 +1,6 @@
+load csv with headers from 'file:///asignatura.csv' as asignatura
+create (a:Asignatura {curso: asignatura.curso,
+                     creditos: asignatura.creditos,
+                     id: asignatura.id,
+                     semestre: asignatura.semestre,
+                     nombre: asignatura.nombre})

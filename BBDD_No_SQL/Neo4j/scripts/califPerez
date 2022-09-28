@@ -1,0 +1,2 @@
+match (a:Estudiante {nombre:'Daniel'})-[r:MATRICULADO]-(b:Asignatura {nombre: 'Prog2'})
+return r.calificacion

@@ -1,0 +1,3 @@
+load csv with headers from 'file:///profesores.csv' as profesores
+ create (p:Profesores {id: toInteger(profesores.id),
+                      nombre: profesores.nombre})
