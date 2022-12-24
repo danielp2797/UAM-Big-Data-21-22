@@ -1,3 +1,0 @@
-load csv with headers from 'file:///esAmigo.csv' as file
-match (a:Estudiante {id: toInteger(file.id1)}), (b:Estudiante {id: toInteger(file.id2)})
-create (a)-[:ES_AMIGO_DE]->(b)

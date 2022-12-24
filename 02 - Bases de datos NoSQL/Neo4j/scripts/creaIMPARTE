@@ -1,0 +1,3 @@
+load csv with headers from 'file:///imparte.csv' as file
+match (a:Profesores {id: toInteger(file.id1)}), (b:Asignatura {id: file.id2})
+create (a)-[:IMPARTE {aula: file.aula}]->(b)

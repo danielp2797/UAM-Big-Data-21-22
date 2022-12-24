@@ -1,0 +1,120 @@
+\section{Introducción}
+\subsection{Propiedades ACID vs BASE}
+ACID es el acrónimo de las 4 propiedades que cumple cualquier base de datos relacional. Estas cuatro propiedades son:
+\begin{itemize}
+	\item \textbf{Atomicity.} En una transacción es necesario completar todas las instrucciones de forma indivisible, es decir, o se ejecutan todas las instrucciones o ninguna.
+	\item \textbf{Consistency.} Cualquier transacción debe ser válida de acuerdo a las reglas definidas sobre la base de datos.
+	\item \textbf{Isolation.} Las transacciones solo son visibles una vez se completa su ejecución totalmente.
+	\item \textbf{Durability.} Los datos se guardan en un medio de almacenamiento persistente. 
+\end{itemize}
+Dentro de estos sistemas existe un punto delicado que es decidir el grado de disponibilidad de los datos frente a la consistencia con que se recibe el dato. En general, aumentar una de estas características disminuye la otra.\\\\
+El modelo ACID prioriza la consistencia frente a la disponibilidad de los datos. Sin embargo, para casos de uso con datos distribuidos puede ser interesante dar prioridad a la disponibilidad frente a la consistencia.\\\\
+Este enfoque da lugar al modelo BASE con que se sustenta el paradigma de las bases de datos noSQL o no relacionales. Las propiedades de este paradigma son:
+\begin{itemize}
+	\item \textbf{Basically available.} Se permiten fallos en algunos nodos del sistema distribuido. Esto genera que no se puedan resolver todas las consultas o que las transacciones no se repliquen adecuadamente en todos los nodos. Este principio relaja el principio de Atomicity del modelo ACID y garantiza la resolución de consultas pese a fallos parciales dentro de la infraestructura.
+	\item \textbf{Eventually consistent.} La BD puede ser inconsistente en cortos periodos de tiempo mientras se replican las transacciones. Este principio relaja el principio de Consistency del modelo ACID.
+	\item \textbf{Soft state.} El estado de las BBDD cambia a lo largo del tiempo pese a que no se produzcan transacciones dada la propiedad de Eventually consistent.
+\end{itemize}
+Dentro de estos principios el más relevante es la consistencia eventual y existen varios tipos.
+\begin{itemize}
+	\item \textbf{Causal consistency}. Las transacciones de escritura relacionadas causalmente deben ser vistas por todos los procesos de los nodos en el mismo orden.
+	\item \textbf{Read-your-writes consistency.} Un usuario que realice transacciones de escritura en la BD, al realizar lecturas obtiene valores actualizados incluso durante el proceso de réplica en todos los nodos.
+	\item \textbf{Session consistency}. Durante una sesion de conexión a la BD se garantiza la consistencia del modelo ACID.
+	\item \textbf{Monotonic read consistency}. Siempre se muestra el valor de un registro en orden monotónico creciente de la fecha de transacción, es decir, cuando se realice una consulta de un valor, posteriormente, no se observará cualquier versión anterior.
+	\item \textbf{Monotonic write consistency}. Las transacciones de tipo UPDATE se ejecutan en orden de solicitud al sistema distribuido.
+\end{itemize}
+El motivo de coexistir ambos enfoques es que para aplicaciones y casos de uso que requieran tratamiento de datos masivos, las BBDD relacionales tienen problemas de rendimiento y escalabilidad.
+\subsection{Características de una base de datos NoSQL}
+Una base de datos NoSQL (Not Only SQL) por lo general cumple varios puntos:
+\begin{itemize}
+	\item \textbf{No necesariamente implementa un lenguaje de consultas SQL}.
+\item \textbf{No utiliza una estructura de datos fija para almacenar datos}. La naturaleza de los datos que se almacenan es muy heterogénea y los esquemas en general pueden modificarse sin detener el servicio de la BD. 
+\item \textbf{No soporta operaciones de tipo JOIN}.
+\item \textbf{La arquitectura de las aplicaciones es distribuida}. Esto aporta gran escalabilidad horizontal a los sistemas usando máquinas de bajos recursos.
+\end{itemize}
+\subsection{Tipos de Bases de datos NoSQL}
+Dada la flexibilidad que aporta el modelo BASE, existen varios tipos de BBDD NoSQL que dependen del caso de uso. Los principales tipos son:
+\begin{itemize}
+	\item \textbf{Clave-valor}. Usa el método clave-valor para almacenar datos, donde la clave identifica de manera única cada registro. Existe total libertad para definir tanto las claves como los valores. Al definir la base de datos se pueden definir namespaces que identifican un subconjunto de claves. Son altamente particionables. Especialmente indicadas para almacenar datos de sesión o carritos de tiendas online.\\\\
+	EJEMPLOS: redis
+	\item \textbf{Orientada a documentos}. La estructura es similar a las clave-valor pero los valores son entidades semiestructuradas como los formatos JSON o XML. La flexibilidad de estas BBDD radica en que las entidades no necesitan esquema. La implementacion permite encontrar registros por los valores de atributo en los documentos, al contrario que los pares clave-valor donde solo se pueden recuperar registros por la clave. Se pueden embeber documentos dentro de un documento lo que evita operaciones JOIN y es la razón por la que no se soporta dicha operación. Este es el tipo de BD NoSQL de propósito general. Por ejemplo, se utilizan en el back de una web donde existen muchas lecturas y escrituras en la BD, se usa el JSON como estructura de datos y los atributos de cada valor son muy variables.\\\\
+	EJEMPLOS: MongoDB
+	\item \textbf{Orientada a columnas}. Son similares a las BBDD relacionales en que se componen de filas y columnas. En cada fila existen millones de columnas (nombre + valor) sin requerir esquemas predefinidos. Cabe señalar que no existen tablas y el número de columnas puede variar de una fila a otra. No se soporta la operación JOIN porque cada fila puede contener tantas columnas como se quiera y estas BBDD son especialmente eficientes con un número de columnas grande (millones). Un ejemplo de caso de uso son los análisis de mercado donde se ponen en común millones de variables de distinta índole por cada fila, que puede ser un instante de tiempo.\\\\
+	EJEMPLOS: cassandra
+	\item \textbf{Orientada a grafos}. Estas BBDD son especialmente útiles cuando se debe almacenar grandes cantidades de información con relaciones complejas entre los registros. Las entidades básicas son los nodos y las relaciones. Mediante estas BBDD se modela la adyacencia entre registros, es decir, cada nodo almacena punteros a objetos adyacentes. La principal ventaja es que se acelera la búsqueda de caminos entre nodos, evitando el JOIN recursivo de una BD relacional. Algunos casos de uso son las redes sociales o las rutas en logística.\\\\
+	EJEMPLOS: Neo4j
+\end{itemize}
+\section{Bases de datos orientadas a documentos}
+\subsection{Organizacion de los datos}
+La organización es similar a los motores de BBDD relacionales. Las principales características son:
+\begin{enumerate}
+	\item Estructura dinámica. Las BBDD y las colecciones se crean al usarlas.
+	\item BBDD. Las bases de datos son conjuntos de colecciones.
+	\item Colecciones. Son un conjunto de documentos en formato BSON (Binary JSON) una estrcutura binaria para representar estructuras de datos complejas. Son equivalentes a las tablas del modelo relacional pero no tienen esquema y cada documento de una colección puede tener distintos campos. Casa documento BSON tiene un identificador único.
+	\item Documento. Es un conjunto de pares clave-valor, equivalentes a las filas de una BBDD relacional. Sin embargo, no existe un esquema de fila pre-establecido, y cada fila puede tener tantos campos como se quiera. Los valores a su vez pueden contener otros documentos. A cada campo se le asigna un valor y sobre estos valores se definen índices que optimizan los tiempos de consulta.
+\end{enumerate}
+\subsection{Modelo de datos}
+Dadas las caracterícticas anteriores, se compara el patrón de diseño de un modelo de datos relacional con el orientado a documentos. \\
+
+\textbf{PATRONES BBDD RELACIONAL}
+\begin{itemize}
+	\item Diseño estático. Cambios en la forma de uso de una BBDD no conllevan un cambio en el modelo de datos.
+	\item Esquema fijo de tablas. Se tiene garantía de que el esquema de datos se cumple. Facilita la consulta y transacción de datos. Los cambios en el modelo son muy costosos.
+\end{itemize}
+
+
+\textbf{PATRONES BBDD ORIENTADA A DOCUMENTOS}
+\begin{itemize}
+	\item Independencia del modo de uso. Cualquier operación de lectura es posible mediante consultas JOIN. Soporta transacciones ya que se pueden modificar varios registros atómicamente.
+	\item Esquema dinámico e iterativo. Un cambio en el uso de los datos se puede alterar el modelo de datos de manera sencilla. Se adapta a nuevos escenarios fácilmente.
+	\item Control del uso y modificación de datos. Dada la ausencia de esquema, se requiere control estricto de los documentos y las relaciones. Alto riesgo de desastres en las aplicaciones ya que las relaciones se resuelven por anidamiento de documentos.
+\end{itemize}
+\subsection{Manejo básico}
+En esta sección se describen las acciones básicas dentro de una aplicación mongoDB. Para iniciar una sesion en la aplicación, se debe introducir el comando $$<\textrm{\textit{mongo}}>$$ en la shell del servidor (v. 4.04 - Ubuntu 18.04).
+\subsubsection{Usar una base de datos}
+A través de la shell, $db$ se refiere a la base de datos actualmente en uso. Para cambiar entre bases de datos se declara el comando \textit{use} junto al nombre de la base de datos:
+$$\textrm{use} <\textrm{db}>$$
+Para cambiar a una base de datos llamada \textit{ejemplo} se debe usar la sentencia:
+$$\textrm{use } \textrm{ejemplo}$$
+\subsubsection{Objetos, documentos y subdocumentos}
+Un objeto es un array asociativo que puede ser representado mediante pares clave-valor donde el orden de las claves es importante. Un documento representa un registro de una colección. Estan identificados por un ID único en el campo \textit{\_id}. Un subdocumento es un objeto anidado dentro de un documento.
+\subsection{Métodos de lectura} 	
+\subsubsection{Find. Filtros y proyecciones}
+Solo es posible acceder a los objetos contenidos en una misma colección simultáneamente. La instrucción \textit{find} devuelve un cursor que recorre el resultado de la búsqueda. El \textbf{filtro} define las condiciones que deben cumplir los documentos y las \textbf{proyecciones} el conjunto de campos a devolver en la búsqueda. La sintaxis es:
+$$db.<\textrm{coleccion}>.find(<\textrm{filtro}>, <\textrm{proyeccion}>)$$
+Si solo se quiere un único elemento existe la instrucción \textit{findOne} con sintaxis:
+$$db.<\textrm{coleccion}>.findOne(\{<\textrm{filtro}>\}, <\textrm{proyeccion}>)$$
+El filtro tiene el mismo formato que un documento \{'key': value\}. En la proyección la clave indica el campo que se recupera, y se indica en el valor un 1 si se incluye o un 0 si no se incluye. El campo \textit{\_id} siempre se incluye salvo que se especifique lo contrario con un 0.
+\subsection{Métodos asociados a cursor}
+Los siguientes métodos están asociados al cursor que recorre la colección que se consulta para devolver los resultados.
+\subsubsection{sort}
+Devuelve una consulta ordenada por los campos indicados. La sintaxis es:
+$$db.<\textrm{coleccion}>.sort(\{<\textrm{campo}>: 1, -1\})$$
+El valor $1$ es para ordenar ascendentemente y $-1$ descendentemente.  Si no especifica un ordenamiento, los resultados se devuelven en el mismo orden en que estén almacenados en disco, no como se introdujeron.
+\subsubsection{limit}
+Obtiene como máximo $n$ resultados de una consulta. Mejora el rendimiento al evitar recorrer todos los resultados de una colección. Útil para test de la estructura de documentos. La sintaxis es:
+$$db.<\textrm{coleccion}>.limit(n)$$`
+\subsubsection{skip}
+Ignora los primeros $n$ resultados de una consulta. Mejora el rendimiento al evitar recorrer todos los resultados de una colección. Útil para test de la estructura de documentos. La sintaxis es:
+$$db.<\textrm{coleccion}>.skip(n)$$
+\subsection{Listas y subdocumentos}
+Los subdocumentos, aportan una nueva dimensión a los documentos, aunque aumenta la complejidad de la colección y deben usarse de manera prudente. En BBDD relacionales se tienen que usar varias tablas para conseguir el mismo comportamiento, pero en las BBDD orientadas a documentos basta declarar como valor una clave un nuevo documento.\\\\
+Para acceder al subdocumento almacenado en una clave, existen dos métodos:
+\begin{enumerate}
+	\item \textbf{Notación por puntos (dot notation).} Permite acceder al valor $n$ que esté dentro de una lista o subdocumento.\\\\
+	La sintaxis para una lista es:
+$$db.<\textrm{coleccion}>.find( \{<\textrm{clave subdoc}>.n:<valor>\} )$$
+	La sintaxis para un subdocumento es:
+$$db.<\textrm{coleccion}>.find( \{<\textrm{clave subdoc 1}>...<\textrm{clave subdoc n}>:<valor>\} )$$
+Esta operación es un find filtrando, esta vez, por los valores de subdocumentos o listas dentro de un documento.
+	\item \textbf{Búsqueda exacta}. En este caso, se buscan coincidencias en los valores de ua lista. \\\\
+	Para una coincidencia exacta en los elementos de una lista la sintaxis es:
+	$$db.<\textrm{coleccion}>.find( \{<\textrm{clave lista}>:\textrm{[valor 1,\ldots, valor n]}\} )$$
+	Para una coincidencia parcial, la sintaxis es:
+		$$db.<\textrm{coleccion}>.find( \{<\textrm{clave lista}>:<\textrm{valor}>\} )$$
+	y se devuelven todos los registros que contengan esa lista y dentro de la lista el valor indicado.
+\end{enumerate}
+\subsection{Operadores de lectura}
+
+\section{Características principales}
+\subsection{Indexación}

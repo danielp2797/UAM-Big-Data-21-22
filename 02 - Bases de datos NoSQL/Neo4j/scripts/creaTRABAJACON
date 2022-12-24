@@ -1,0 +1,3 @@
+LOAD CSV WITH HEADERS FROM "file:///trabajaCon.csv" AS file
+MATCH (c:Profesores {id: toInteger(file.id1)}), (d:Profesores {id: toInteger(file.id2)})
+CREATE (c)-[:TRABAJA_CON]->(d)

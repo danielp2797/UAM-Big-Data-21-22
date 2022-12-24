@@ -1,3 +1,0 @@
-load csv with headers from 'file:///estudiante.csv' as estudiante
-create (e:Estudiante {id:toInteger(estudiante.id),
-                      nombre: estudiante.nombre})

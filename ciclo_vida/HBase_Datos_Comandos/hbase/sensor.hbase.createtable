@@ -1,6 +1,0 @@
-create 'sensor', 'device', 'info' 
-alter 'sensor', NAME=>'info', VERSIONS=>5
-list
-scan 'sensor'
-describe 'sensor'
-exit

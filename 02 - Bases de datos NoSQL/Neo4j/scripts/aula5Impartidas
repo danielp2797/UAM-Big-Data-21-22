@@ -1,0 +1,2 @@
+match (a: Profesores)-[r:IMPARTE {aula: '5'}]-(b:Asignatura)
+return a, r, b
