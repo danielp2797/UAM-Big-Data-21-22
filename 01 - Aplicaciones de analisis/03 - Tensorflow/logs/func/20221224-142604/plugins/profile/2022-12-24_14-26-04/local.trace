@@ -1,0 +1,42 @@
+
+TõO
+	/host:CPUõ'›…ÀŞ
+tf_Compute/1808794267›…ÀŞ‡™¯i
+python‡™¯i"Zõ‡™¯iexample_funcHĞŒ–Ø
+PàÊ¤¦¹Z
+tracing_count1Z!
+tf_function_calltraced-nonXla"1õ‡™¯itf.function-graph_buildingHà¼Œ£PØğ­è"'õ‡™¯iconvert_to_tensorHğœí³£P¶É"'õ‡™¯iconvert_to_tensorHÀÀ»ù£Pàñ”"'õ‡™¯iconvert_to_tensorH°’ °¦PÀ¯"'õ‡™¯iconvert_to_tensorHèöŠ§Pè¯¥"'õ‡™¯iconvert_to_tensorHà©·ƒ±PØÏ¹"'õ‡™¯iconvert_to_tensorHˆİ›Æ±P¨ƒ¢
+"'õ‡™¯iconvert_to_tensorHà»ö×·P£š
+"'õ‡™¯iconvert_to_tensorHàÈ®³¸PÀ˜Â
+"'õ‡™¯iconvert_to_tensorHÈÄ­ü¼PØ½Â"'õ‡™¯iconvert_to_tensorHÀËÒ­¾PØâŒ"'õ‡™¯iconvert_to_tensorHÀ€ïùÀP¸¦ì"'õ‡™¯iconvert_to_tensorH°ïÑëÁP˜©·"0õ‡™¯iTFE_Py_ExecuteCancelableHÈæÊç©Pœ±±™"Aõ‡™¯i)EagerExecute: __inference_example_func_28Hè›•ªP¸¶™"Fõ‡™¯i.EagerLocalExecute: __inference_example_func_28H°ùİ—ªPø‘Öı˜"5õ‡™¯iEagerCopyToDeviceAndAddCacheKeyHÈº–™ªP¸÷Ë"3õ‡™¯iValidateInputTypeAndPlacementH€¨ïÙ°P˜éş")õ‡™¯iEagerKernelExecuteH ğüŞ°Pè¿Ğ´"/õ‡™¯iKernelAndDeviceFunc::RunHØ—Åá°P€¤”é"Lõ‡™¯iFunctionRunHĞîØ¶P¨•Z
+group_id0Z
+id-6277525570329439255"!õ‡™¯itf.constantHøµƒ½ÈPğäí)"+õ‡™¯iTFE_DeleteTensorHandleHĞ”ØâÈPØ±U"/õ‡™¯iTFE_Py_FastPathExecute_CH ¬œƒÉP˜‘â"/õ‡™¯iEagerExecute: _EagerConstH¨ÛÂ­ÉPè½Æ6"4õ‡™¯iEagerLocalExecute: _EagerConstHğÛ´¯ÉPˆó›4"2õ‡™¯iValidateInputTypeAndPlacementHØùÙÉP¨•:"(õ‡™¯iEagerKernelExecuteHĞ˜¹ÛÉPà“×"-õ‡™¯i_EagerConst:_EagerConstHàôßÉP˜››"+õ‡™¯iTFE_DeleteTensorHandleHÀÌÃåÉPÈÒ0"+õ‡™¯iTFE_DeleteTensorHandleH ¶´éÉP°Ì"+õ‡™¯iTFE_DeleteTensorHandleHĞ¬©ìÉPÀ 
+"/õ‡™¯iEagerExecute: LogicalAndH ‹àíÉP ½é›"4õ‡™¯iEagerLocalExecute: LogicalAndHØ¦²îÉPø™š"2õ‡™¯iValidateInputTypeAndPlacementH°Ş‘åËPè¯F")õ‡™¯iEagerKernelExecuteHØ³‡çËP®ÚŸ"Tõ‡™¯i
+LogicalAndHˆŒ†êËP˜«’’Z"
+	long_nameLogicalAnd:LogicalAndZ
+is_eager1"'õ‡™¯iconvert_to_tensorH áåĞPè’".õ‡™¯iTFE_Py_FastPathExecute_CH ”ŒóĞPè¼ï`",õ‡™¯iEagerExecute: IdentityH Û²–ÑPˆ¬ô:"1õ‡™¯iEagerLocalExecute: IdentityHàæº™ÑP°‘Ê7"2õ‡™¯iValidateInputTypeAndPlacementHØŒ¾ÇÑPàš@"(õ‡™¯iEagerKernelExecuteHÈšÃÉÑP¨‚"Mõ‡™¯iIdentityHğÍçÍÑP ø‰Z
+is_eager1Z
+	long_nameIdentity:Identity".õ‡™¯iTFE_Py_FastPathExecute_CH˜‡æİÑP€ôÓ"'õ‡™¯iconvert_to_tensorHøÁÀŞPÈæü"'õ‡™¯iconvert_to_tensorHğ‰²ŞPèÌB"!õ‡™¯itf.constantHØ¿Í¿ŞP€ñú,"+õ‡™¯iTFE_DeleteTensorHandleHà¦‘èŞPàØU"'õ‡™¯iconvert_to_tensorH°³â÷ŞPØ£Ö"!õ‡™¯itf.constantHğ†¾ßPˆ®§"+õ‡™¯iTFE_DeleteTensorHandleHøİ‡ßPØå"'õ‡™¯iconvert_to_tensorH¨àã—ßPÀ¼µ4"!õ‡™¯itf.constantHèê»¸ßPø»²"+õ‡™¯iTFE_DeleteTensorHandleHèÿÅßP¨ò".õ‡™¯iTFE_Py_ExecuteCancelableHğ•½ÓßPˆ›Éf"0õ‡™¯iEagerExecute: WriteSummaryH¨ıòğßPà˜¼G"5õ‡™¯iEagerLocalExecute: WriteSummaryH°®½óßPÈ¾»D"2õ‡™¯iValidateInputTypeAndPlacementH¸ÈçàP¸°K"(õ‡™¯iEagerKernelExecuteH˜ñÉ àPŒÑ"Yõ‡™¯iWriteSummaryHÈØ½¥àP°“îZ&
+	long_nameWriteSummary:WriteSummaryZ
+is_eager1",õ‡™¯iTFE_DeleteTensorHandleHÈÈ¤½àP˜¼"+õ‡™¯iTFE_DeleteTensorHandleHÈÄÉ¿àPèÂ"+õ‡™¯iTFE_DeleteTensorHandleH°ôÀàPèã"!õ‡™¯itf.constantHàîµÎàPÈ Ø"+õ‡™¯iTFE_DeleteTensorHandleHˆ‘ŒààP °$"+õ‡™¯iTFE_DeleteTensorHandleHĞ‡ëàPˆë"+õ‡™¯iTFE_DeleteTensorHandleHèÉìàPÈß"+õ‡™¯iTFE_DeleteTensorHandleHĞàéûàP˜±j"+õ‡™¯iTFE_DeleteTensorHandleHÈ™ıàPø´"gõ›…ÀŞExecutorState::ProcessHĞø·Š·PàŸ²Z
+id-6277525570329439255Z
+iter_num0Z
+group_id0"hõ›…ÀŞExecutorState::ProcessHØÙ¡§·P˜°ñÇZ
+iter_num0Z
+group_id0Z
+id-6277525570329439255"Sõ›…ÀŞAddV2Hè Ë¨·P¨Çõ°Z
+	long_name	Add:AddV2Z
+group_id0Z
+is_eager0"Oõ›…ÀŞMulH°µğà¿PˆæÓZ
+	long_nameMul1:MulZ
+group_id0Z
+is_eager0"gõ›…ÀŞExecutorState::ProcessHĞËÀñ¿PĞôç
+Z
+iter_num0Z
+group_id0Z
+id-6277525570329439255"Oõ›…ÀŞMulHèÏ¶ó¿P¨’¯Z
+	long_nameMul2:MulZ
+group_id0Z
+is_eager0"Wõ›…ÀŞExecutorDoneCallbackHÀ‹Áı¿PËâ­Z
+group_id0Z
+id-6277525570329439255

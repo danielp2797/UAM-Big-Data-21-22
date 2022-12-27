@@ -1,8 +1,0 @@
-describe 'sensor'
-scan 'sensor', { COLUMNS => ['info:temp_in', 'info:pressure_in'] }
-scan 'sensor', { COLUMNS => ['info:temp_in', 'info:temp_out'] }
-get 'sensor', '5842'
-get 'sensor', '5843', {COLUMN => 'info:pressure_in'}
-get 'sensor', '5844', 'info:pressure_in'
-
-exit

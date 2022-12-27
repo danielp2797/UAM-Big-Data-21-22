@@ -1,0 +1,98 @@
+.qst {
+    background-color: #c0de87;
+    padding: 10px;
+    border-radius: 5px;
+    border: solid 2px #549e39;
+}
+
+.qst:before {
+    font-weight: bold;
+    content: "Ejercicio";
+    display: block;
+    margin: 0px 10px 10px 10px;
+}
+
+.ans {
+    background-color: #F08080;
+    padding: 10px;
+    border-radius: 5px;
+    border: solid 2px #CD5C5C;
+}
+
+h1, h2, h3 {
+    color: #549e39;
+}
+
+.title, .subtitle, .author {
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: #549e39;
+}
+
+.title {
+    font-size:xx-large;
+}
+
+.subtitle {
+    color: gray;
+    font-size:x-large;
+}
+
+.author {
+    font-size:large;
+}
+
+.notes::before {
+    content: "Notas: ";
+    font-style: italic;
+    margin-bottom: 0px;
+}
+
+.notes {
+    font-size: small;
+    padding-top: 10px;
+    border-top: solid 1px #549e39;
+
+}
+
+.info {
+    background-color: #AFCECF;
+    padding: 10px;
+    border-radius: 5px;
+    border: solid 2px #5F9EA0;
+}
+
+.info:before {
+    font-weight: bold;
+    content:"Más información: ";
+}
+
+.info:after {
+    content:".";
+}
+
+.text_cell_render p, ul, ol {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+li {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+div.output pre{
+    border: 1px solid gray;
+    border-radius: 1px;
+    padding: 5px;
+}
+
+td, th {
+    font-size: 110%;
+}
+
+mark {
+  background-color: #CCCC00;
+}
+
